@@ -2,3 +2,6 @@
     remote = storage
 ['remote "storage"']
     url = ../../visionguard_dvc_storage
+['remote "dagshub"']
+    url = s3://dvc
+    endpointurl = https://dagshub.com/sarahtauseef129/23L-0552_A2_Ops.s3
