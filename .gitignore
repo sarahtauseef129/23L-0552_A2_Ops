@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+dvc_toy/
+dvc_toy_storage/
