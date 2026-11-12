@@ -4,3 +4,20 @@ __pycache__/
 .env
 dvc_toy/
 dvc_toy_storage/
+.env.*
+!.env.example
+
+# Model checkpoints and local datasets
+models/
+cloud_api/models/
+data/raw/
+data/splits/
+
+# Local databases and experiment tracking
+instance/
+mlruns/
+
+# Temporary testing files
+corrupt.jpg
+invalid.txt
+oversized.jpg
