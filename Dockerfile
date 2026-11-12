@@ -17,7 +17,7 @@ WORKDIR /app
 # 3. Install dependencies before copying app code
 COPY requirements-docker.txt .
 
-RUN pip install --no-cache-dir \
+RUN pip install --no-cache-dir --no-compile \
     -r requirements-docker.txt
 
 # 4. Create an unprivileged user

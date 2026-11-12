@@ -37,6 +37,7 @@ services:
 
     environment:
       DB_HOST: db
+     # MODEL_PATH: /app/models/missing_model.keras
       MODEL_PATH: /app/models/mobilenet_tuned_best.keras
       FLASK_DEBUG: "false"
 
