@@ -2,6 +2,7 @@
 import os
 import io
 import base64
+import requests
 
 from flask import Flask, render_template, request, jsonify
 from PIL import Image, UnidentifiedImageError
@@ -9,7 +10,8 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
 
-from inference import predict_image
+from cloud_client import predict_using_cloud
+
 from database import (
     init_db,
     save_prediction,
@@ -26,7 +28,7 @@ app.config["MAX_CONTENT_LENGTH"] = MAX_MB * 1024 * 1024
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
-# Initialize schema once at startup.
+# Initialize database schema when Flask starts
 init_db()
 
 
@@ -68,7 +70,11 @@ def result():
         )
 
     try:
-        with Image.open(file.stream) as img:
+        # Read the uploaded image
+        image_bytes = file.read()
+
+        # Validate the image before sending it to Vercel
+        with Image.open(io.BytesIO(image_bytes)) as img:
             if img.format not in {"JPEG", "PNG", "WEBP"}:
                 return render_error(
                     "File content is not a supported image."
@@ -77,8 +83,13 @@ def result():
             img.load()
             image = img.convert("RGB")
 
-        prediction = predict_image(image)
+        # Send image to the cloud-hosted model on Vercel
+        prediction = predict_using_cloud(
+            image_bytes,
+            filename
+        )
 
+        # Generate image preview for the website
         preview = image.copy()
         preview.thumbnail((600, 450))
 
@@ -92,8 +103,10 @@ def result():
             ).decode("ascii")
         )
 
+        # Save the prediction to the existing database
         save_prediction(filename, prediction)
 
+        # Display prediction on the website
         return render_template(
             "index.html",
             result=prediction,
@@ -108,6 +121,21 @@ def result():
     ):
         return render_error(
             "This image could not be decoded or processed."
+        )
+
+    except requests.exceptions.RequestException:
+        app.logger.exception("Cloud API request failed")
+        return render_error(
+            "Cloud prediction service is unavailable. "
+            "Please try again.",
+            502
+        )
+
+    except (KeyError, TypeError):
+        app.logger.exception("Invalid cloud API response")
+        return render_error(
+            "The cloud API returned an unexpected response.",
+            502
         )
 
 
@@ -126,8 +154,9 @@ def health():
 
         return jsonify({
             "status": "healthy",
-            "model": "loaded",
-            "database": "connected"
+            "inference": "cloud",
+            "database": "connected",
+            "model": "MobileNetV2_Tuned"
         }), 200
 
     except Exception:
@@ -148,6 +177,6 @@ def too_large(error):
 if __name__ == "__main__":
     app.run(
         host="127.0.0.1",
-        port=5001,
+        port=5002,
         debug=False
     )
