@@ -1,0 +1,11 @@
+index,true_label,predicted_label,ai_probability,image_path
+0,1,0,0.61027664,data\raw\AiArtData\AiArtData\popepufferjacket.jpg.jpg.foto.rm.jpeg.foto.rbig.jpeg
+4,1,0,0.36827067,data\raw\AiArtData\AiArtData\Midjourney-River.jpg
+6,1,0,0.61725926,data\raw\AiArtData\AiArtData\scenery-art-landscape-ai-987.webp
+8,1,0,0.6430803,data\raw\AiArtData\AiArtData\animal-happy-character-cute-ai-generated-free-photo.jpg
+15,0,1,0.7988977,data\raw\RealArt\RealArt\people.jpg
+19,1,0,0.007848121,data\raw\AiArtData\AiArtData\NeseDevenot_02.jpg
+24,1,0,0.27103215,data\raw\AiArtData\AiArtData\il_570xN.4503972325_g40z.jpg
+25,1,0,0.44464135,data\raw\AiArtData\AiArtData\ai-generated-photos-aurel-manea-1.jpg
+26,0,1,0.91437024,data\raw\RealArt\RealArt\what-color-paintings-sell-best.jpg
+30,0,1,0.93539536,data\raw\RealArt\RealArt\3-x-3-template-newi.jpg

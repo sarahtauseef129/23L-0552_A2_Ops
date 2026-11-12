@@ -1,0 +1,8 @@
+tensorflow-cpu==2.21.0
+flask
+gunicorn
+pillow
+numpy
+python-dotenv
+SQLAlchemy>=2.0,<3.0
+psycopg[binary]>=3.2,<4.0

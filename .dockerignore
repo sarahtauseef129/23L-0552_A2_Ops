@@ -1,0 +1,36 @@
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Git and DVC internals
+.git/
+.dvc/
+
+# Datasets and training artifacts
+data/
+reports/
+mlruns/
+tuner_results/
+
+# Local runtime state
+instance/
+*.db
+*.sqlite3
+
+# Models are mounted into the container
+models/
+
+# Development files
+.vscode/
+.idea/
+.pytest_cache/
